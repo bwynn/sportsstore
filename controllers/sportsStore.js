@@ -1,14 +1,12 @@
 angular.module('sportsStore')
-.controller('sportsStoreCtrl', function($scope) {           // define the controller
-  $scope.data = {                                           // create an array object
-    products: [
-      { name: "Product #1", description: "A product",       // define placeholder json
-      category: "Category #1", price: 100 },                // object data
-      { name: "Product #2", description: "A product",
-      category: "Category #1", price: 110 },
-      { name: "Product #3", description: "A product",
-      category: "Category #2", price: 200 },
-      { name: "Product #4", description: "A product",
-      category: "Category #3", price: 210 }]
-  };
+ .constant("dataUrl", "http://localhost:5500/products")
+  .controller('sportsStoreCtrl', function($scope, $http, dataUrl) {           // define the controller
+  $scope.data = {};                                           // create an array object
+    $http.get(dataUrl)
+      .success(function (data) {
+        $scope.data.products = data;
+      })
+      .error(function (error) {
+        $scope.data.error = error;
+      });
 });
